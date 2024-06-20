@@ -61,10 +61,18 @@ app.post("/createUser", (req, res) => {
 
 app.put('/updateUser/:id', (req, res) => {
     const id = req.params.id;
-    UserModel.findByIdAndUpdate({ _id: id }, req.body, { new: true })
-        .then(user => res.json(user))
-        .catch(err => res.json(err))
-});
+    const updateData = req.body;
+  
+    // Filter out empty values
+    const filteredData = Object.fromEntries(
+      Object.entries(updateData).filter(([key, value]) => value !== null && value !== undefined && value !== '')
+    );
+  
+    UserModel.findByIdAndUpdate({ _id: id }, filteredData, { new: true })
+      .then(user => res.json(user))
+      .catch(err => res.status(500).json({ error: 'Internal server error', details: err }));
+  });
+  
 
 app.delete('/deleteUser/:id', (req, res) => {
     const id = req.params.id;
