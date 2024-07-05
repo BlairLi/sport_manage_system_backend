@@ -9,14 +9,6 @@ const registrationSchema= new mongoose.Schema({
         type:String,
         required:true
     }, 
-    childName:{
-        type:String,
-        required:true
-    },
-    childBirth:{
-        type:String,
-        required:true
-    },
     email:{
         type:String,
         required:true
@@ -25,37 +17,73 @@ const registrationSchema= new mongoose.Schema({
         type:Number,
         required:true
     },
-    program:{
+    child1Name:{
         type:String,
         required:true
     },
-    amount:{
+    child1Birth:{
+        type:String,
+        required:true
+    },
+    child1Program:{
+        type:String,
+        required:true
+    },
+    child1Amount:{
         type:Number,
         required:true
     },
-    start:{
+    child1Start:{
         type:String,
         required:true
     },
-    end:{
+    child1End:{
         type:String,
         required:true
     },
-    secondProgram:{
+    child1Program2:{
         type:String,
         required:false
     },
-    secondAmount:{
+    child1Amount2:{
         type:Number,
         required:false
     },
-    secondStart:{
+    child1Start2:{
+        type:String,
+        required:false
+    },
+    child1End2:{
+        type:String,
+        required:false
+    },
+    child2Name:{
+        type:String,
+        required:false
+    },
+    child2Birth:{
+        type:String,
+        required:false
+    },
+    child2Program:{
+        type:String,
+        required:false
+    },
+    child2Amount:{
+        type:Number,
+        required:false
+    },
+    child2Start:{
+        type:String,
+        required:false
+    },
+    child2End:{
         type:String,
         required:false
     },
     makeupClasses:{
         type:String,
-        required:true
+        required:false
     },
     notes:{
         type:String,
