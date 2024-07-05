@@ -14,6 +14,7 @@ const app=express()
 const stripe = new Stripe('sk_test_51PNSST2KpyYZmvZELH7NIKMo4zOPqLuCKRWE1pfg87d3q5lHOyoW94v4lHEMuxCytU4A8PyEZtSP8y79udCAB5xS00iYwURNL3');
 dbCon()
 app.use(cors())
+app.options('*', cors());
 app.use(express.json())
 app.use('/api',routers)
 
