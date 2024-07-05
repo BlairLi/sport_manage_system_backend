@@ -26,18 +26,19 @@ app.post('/create-checkout-session', async (req, res) => {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
-        mode: 'payment',
-        allow_promotion_codes: true, // Enable usage of promotion codes
+        mode: 'subscription',  
+        allow_promotion_codes: true, 
         success_url: 'http://localhost:5173/success',
         cancel_url: 'http://localhost:5173/cancel',
       });
   
-      res.status(200).json({ id: session.id, success: true, message: " Created Successfully." })
+      res.status(200).json({ id: session.id, success: true, message: "Created Successfully." });
     } catch (error) {
       console.error('Error creating checkout session:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
   });
+  
 
 // User routes
 app.get('/getUser', (req, res) => {
