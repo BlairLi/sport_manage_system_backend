@@ -11,7 +11,8 @@ import Stripe from 'stripe';
 
 dotenv.config()
 const app=express()
-const stripe = new Stripe('sk_test_51PNSST2KpyYZmvZELH7NIKMo4zOPqLuCKRWE1pfg87d3q5lHOyoW94v4lHEMuxCytU4A8PyEZtSP8y79udCAB5xS00iYwURNL3');
+// const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`);
+const stripe = new Stripe('sk_test_51OgII1FhlO3bVzIRERiiLa7kT0i77iI0jPVVgA9Otsj3uQbycPpIz34ag7VXY11TSlmFKvFf7jDrjS5EZM0oEE2a00AKADiInL');
 dbCon()
 app.use(cors())
 app.use(express.json())
@@ -20,21 +21,39 @@ app.use('/api',routers)
 // server.js or the relevant backend file
 // TODO: create function that will pass success message that will trigger update parents' registration
 app.post('/create-checkout-session', async (req, res) => {
-    const { lineItems } = req.body;
+    const { lineItems, successUrl, cancelUrl } = req.body;
   
     try {
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
-        mode: 'payment',
+        mode: 'subscription',  // Ensure the mode is set to subscription
         allow_promotion_codes: true, // Enable usage of promotion codes
-        success_url: 'http://localhost:5173/success',
-        cancel_url: 'http://localhost:5173/cancel',
+        success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: cancelUrl,
       });
   
-      res.status(200).json({ id: session.id, success: true, message: " Created Successfully." })
+      res.status(200).json({ id: session.id, success: true, message: "Created Successfully." });
     } catch (error) {
       console.error('Error creating checkout session:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+  
+
+app.post('/verify-checkout-session', async (req, res) => {
+    const { sessionId } = req.body;
+  
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+  
+      if (session.payment_status === 'paid') {
+        res.status(200).json({ success: true });
+      } else {
+        res.status(400).json({ success: false });
+      }
+    } catch (error) {
+      console.error('Error verifying session:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
   });

@@ -48,13 +48,33 @@ const getRegistration = async (req, res) => {
 // TODO: finish update registration
 const updateRegistration = async (req, res) => {
   try {
-    const programID = req.params.id
 
-    const updateuser = await usermodel.findByIdAndUpdate(userId, req.body, { new: true })
-    if (!updateuser) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+    const registrationID = req.params.id;
+
+    // Retrieve the current Registration data
+    const currentRegistration = await registrationModel.findById(scheduleID);
+    if (!currentRegistration) {
+      return res.status(404).json({ success: false, message: 'Registration not found' });
     }
-    res.status(200).json({ success: true, message: 'User updated successfully', updateuser });
+
+    // Filter out the fields with empty strings from req.body
+    const filteredData = {};
+    for (const key in req.body) {
+      if (req.body[key] !== '') {
+        filteredData[key] = req.body[key];
+      }
+    }
+
+    // Merge current Registration data with the filtered new data from req.body
+    const updatedData = { ...currentRegistration.toObject(), ...filteredData };
+
+    // Update the Registration document
+    const updatedRegistration = await registrationModel.findByIdAndUpdate(registrationID, updatedData, { new: true });
+    
+    if (!updatedRegistration) {
+      return res.status(404).json({ success: false, message: 'Registration not found' });
+    }
+    res.status(200).json({ success: true, message: 'Registration updated successfully', updateuser });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: 'Internal server error' });

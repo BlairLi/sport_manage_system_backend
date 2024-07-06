@@ -32,7 +32,6 @@ const getSchedule = async (req, res) => {
 
 }
 
-// TODO: update confirmed after parent has paid
 const updateSchedule = async (req, res) => {
   try {
     const scheduleID = req.params.id;
