@@ -1,6 +1,7 @@
 import express from 'express'
 import { createSchedule, getSchedule, updateSchedule ,deleteSchedule, addSession, deleteSession, getSession, getPersonSessionsDuration } from '../controllers/scheduleControllers.js'
 import { createRegistration, getRegistration, updateRegistration, deleteRegistration } from '../controllers/registrationControllers.js'
+import { sendEmail } from '../controllers/emailControllers.js'
 
 const routers=express.Router()
 
@@ -19,5 +20,7 @@ routers.post('/addSession/:id', addSession);
 routers.delete('/deleteSession/:scheduleId/:sessionId', deleteSession);
 
 routers.get('/getPersonSessionsDuration', getPersonSessionsDuration);
+
+routers.post('/sendEmail',sendEmail)
 
 export default routers
