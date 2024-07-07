@@ -21,7 +21,7 @@ app.use('/api',routers)
 // server.js or the relevant backend file
 // TODO: create function that will pass success message that will trigger update parents' registration
 app.post('/create-checkout-session', async (req, res) => {
-    const { lineItems, successUrl, cancelUrl } = req.body;
+    const { lineItems, successUrl, cancelUrl, bookingID, child1Amount, child1Amount2} = req.body;
   
     try {
       const session = await stripe.checkout.sessions.create({
@@ -29,7 +29,7 @@ app.post('/create-checkout-session', async (req, res) => {
         line_items: lineItems,
         mode: 'subscription',  // Ensure the mode is set to subscription
         allow_promotion_codes: true, // Enable usage of promotion codes
-        success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}&booking_id=${bookingID}&child1Amount=${child1Amount}&child1Amount2=${child1Amount2}`,
         cancel_url: cancelUrl,
       });
   

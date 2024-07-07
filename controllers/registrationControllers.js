@@ -49,10 +49,11 @@ const getRegistration = async (req, res) => {
 const updateRegistration = async (req, res) => {
   try {
 
-    const registrationID = req.params.id;
+    const bookingID = req.params.id;
 
     // Retrieve the current Registration data
-    const currentRegistration = await registrationModel.findById(scheduleID);
+    const currentRegistration = await registrationModel.findOne({ bookingID });
+
     if (!currentRegistration) {
       return res.status(404).json({ success: false, message: 'Registration not found' });
     }
@@ -69,12 +70,16 @@ const updateRegistration = async (req, res) => {
     const updatedData = { ...currentRegistration.toObject(), ...filteredData };
 
     // Update the Registration document
-    const updatedRegistration = await registrationModel.findByIdAndUpdate(registrationID, updatedData, { new: true });
-    
+    const updatedRegistration = await registrationModel.findOneAndUpdate(
+      { bookingID },
+      updatedData,
+      { new: true }
+    );
+
     if (!updatedRegistration) {
       return res.status(404).json({ success: false, message: 'Registration not found' });
     }
-    res.status(200).json({ success: true, message: 'Registration updated successfully', updateuser });
+    res.status(200).json({ success: true, message: 'Registration updated successfully', updatedRegistration });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: 'Internal server error' });
