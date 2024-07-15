@@ -11,8 +11,8 @@ import Stripe from 'stripe';
 
 dotenv.config()
 const app = express()
-// const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`);
-const stripe = new Stripe('sk_test_51OgII1FhlO3bVzIRERiiLa7kT0i77iI0jPVVgA9Otsj3uQbycPpIz34ag7VXY11TSlmFKvFf7jDrjS5EZM0oEE2a00AKADiInL');
+const stripe = new Stripe(`${process.env.STRIPE_SECRET_KEY}`);
+// const stripe = new Stripe('sk_test_51OgII1FhlO3bVzIRERiiLa7kT0i77iI0jPVVgA9Otsj3uQbycPpIz34ag7VXY11TSlmFKvFf7jDrjS5EZM0oEE2a00AKADiInL');
 dbCon()
 app.use(cors())
 app.use(express.json())
