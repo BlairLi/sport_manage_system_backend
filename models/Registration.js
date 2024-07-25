@@ -29,6 +29,14 @@ const registrationSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    child1ProgramPlace:{
+        type:String,
+        required:false
+    },
+    childDayOfClassTime:{
+        type:String,
+        required:false
+    },
     child1Amount:{
         type:Number,
         required:true
